@@ -8,6 +8,8 @@
     <script type="application/javascript" src="https://code.angularjs.org/1.3.13/angular-route.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
+
 </head>
 <body>
 
@@ -17,6 +19,18 @@
         <!--<p>{{phone.snippet}}</p>-->
     <!--</li>-->
 <!--</ul>-->
+{{ "lower cap string" | uppercase }}
+<input ng-model="userInput"> Uppercased: {{ userInput | uppercase }}
+<hr/>
+{{ {foo: "bar", baz: 23} | json }}
+<hr/>
+
+{{ 1304375948024 | date }}
+<hr/>
+
+{{ 1304375948024 | date:"MM/dd/yyyy @ h:mma" }}
+<hr/>
+
 
 <div ng-view></div>
 
