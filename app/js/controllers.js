@@ -27,21 +27,24 @@
 // an alternative way
 var phonecatControllers = angular.module('phonecatControllers', []);
 
-phonecatControllers.controller('PhoneListCtrl', ['$scope', '$http',
-    function ($scope, $http) {
-        $http.get('phones/phones.json').success(function(data) {
-            $scope.phones = data;
-        });
+phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
+    function ($scope, Phone) {
+        //$http.get('phones/phones.json').success(function(data) {
+        //    $scope.phones = data;
+        //});
 
+        // What is returned synchronously is a "future" — an object, which will be filled with data when the XHR response returns.
+        // Because of the data-binding in Angular we can use this future and bind it to our template. Then, when the data arrives,
+        // the view will automatically update.
+        $scope.phones = Phone.query();
         $scope.orderProp = 'age';
     }]);
 
-phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$http',
-    function($scope, $routeParams, $http) {
+phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
+    function($scope, $routeParams, Phone) {
         console.log($routeParams.phoneId)
-        $http.get('phones/' + $routeParams.phoneId + '.json').success(function(data) {
-            $scope.phone = data;
-            $scope.mainImageUrl = data.images[0];
+        $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
+            $scope.mainImageUrl = phone.images[0];
         });
 
         $scope.setImage = function(imageUrl) {
